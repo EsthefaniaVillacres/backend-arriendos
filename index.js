@@ -82,10 +82,11 @@ app.get("/test-db", async (req, res) => {
       db: "OK",
       rows,
     });
-  } catch (err) {
-    res.json({
+  } catch (error) {
+    console.error("DB TEST ERROR:", error);
+    res.status(500).json({
       db: "ERROR",
-      error: err.message,
+      error: error.message,
     });
   }
 });
