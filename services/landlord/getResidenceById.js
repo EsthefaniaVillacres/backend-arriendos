@@ -9,7 +9,7 @@ const getResidenceById = async (id) => {
     "URLs generadas:",
     rows.map((row) =>
       JSON.parse(row.fotos).map(
-        (foto) => `http://192.168.1.3:3000/images/${foto}`
+        (foto) => `https://backend-arriendos-production.up.railway.app/images/${foto}`
       )
     )
   );
@@ -17,7 +17,7 @@ const getResidenceById = async (id) => {
   return rows.map((row) => ({
     ...row,
     imagenUrls: JSON.parse(row.fotos).map(
-      (foto) => `http://192.168.1.3:3000/images/${foto}`
+      (foto) => `https://backend-arriendos-production.up.railway.app/images/${foto}`
     ), // Maneja múltiples imágenes
   }));
 };
