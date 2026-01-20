@@ -14,16 +14,31 @@ const adminRoutes = require("./routes/admin.routes");
 const axios = require("axios");
 
 const PORT = process.env.PORT  || 8080;
-
+const allowedOrigins = [
+  "http://localhost:8081",
+  "http://localhost:19006",
+  "http://localhost:3000",
+  // si luego subes tu web a Vercel/Netlify agrega aquí tu dominio
+];
 app.use(
   cors({
-    origin: ["*"],
+     origin: function (origin, callback) {
+      // Permite requests sin origin (Postman, apps móviles)
+      if (!origin) return callback(null, true);
+
+      if (allowedOrigins.includes(origin)) {
+        return callback(null, true);
+      }
+
+      return callback(new Error("CORS bloqueado para: " + origin));
+    },
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
 
-app.use(express.json());
+// Esto asegura que el preflight OPTIONS responda bien
+app.options("*", cors());
 
 // RUTAS
 app.use("/api/arriendos", arriendosRoutes);
